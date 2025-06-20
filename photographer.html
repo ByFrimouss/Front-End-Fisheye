@@ -16,7 +16,11 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
+        <button
+          class="contact_button"
+          aria-label="Ouvrir le formulaire de contact du photographe"
+          onclick="displayModal()"
+        >
           Contactez-moi
         </button>
       </div>
@@ -25,11 +29,18 @@
       <div class="modal">
         <header>
           <h2>Contactez-moi</h2>
-          <img
+          <!-- <img
             src="assets/icons/close.svg"
             onclick="closeModal()"
             alt="croix"
-          />
+          /> -->
+          <button
+            class="close_button"
+            aria-label="Fermer la fenêtre de contact"
+            onclick="closeModal()"
+          >
+            <img src="assets/icons/close.svg" alt="croix" />
+          </button>
         </header>
         <form>
           <!-- <div>

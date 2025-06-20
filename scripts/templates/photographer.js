@@ -6,6 +6,7 @@ function photographerTemplate(data) {
   function getUserCardDOM() {
     const article = document.createElement("article");
     article.setAttribute("role", "listitem");
+    article.setAttribute("aria-label", `Carte du photographe ${name}`);
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
