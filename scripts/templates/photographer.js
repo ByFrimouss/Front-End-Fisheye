@@ -1,10 +1,11 @@
 function photographerTemplate(data) {
-  const { name, portrait, id, city, country, tagline, price } = data; //
+  const { name, portrait, id, city, country, tagline, price } = data; // mise en place du tableau JSON
 
   const picture = `assets/photographers/${portrait}`;
 
   function getUserCardDOM() {
     const article = document.createElement("article");
+    article.setAttribute("role", "listitem");
 
     const img = document.createElement("img");
     img.setAttribute("src", picture);
