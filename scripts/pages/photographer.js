@@ -58,7 +58,7 @@ function displayPhotographerData(photographer) {
   header.appendChild(picture); // l'image va après le bouton
 }
 
-// 4. Initialisation
+// Initialisation
 async function init() {
   const id = getPhotographerIdFromUrl();
   const photographers = await getPhotographers();
