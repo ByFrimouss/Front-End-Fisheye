@@ -8,6 +8,11 @@ function photographerTemplate(data) {
     article.setAttribute("role", "listitem");
     article.setAttribute("aria-label", `Carte du photographe ${name}`);
 
+    // Ajout du lien autour de la carte photographe
+    const link = document.createElement("a");
+    link.setAttribute("href", `photographer.html?id=${id}`);
+    link.setAttribute("aria-label", `Voir le profil du photographe ${name}`);
+
     const img = document.createElement("img");
     img.setAttribute("src", picture);
     img.setAttribute("alt", `Portrait de ${name}`);
@@ -15,7 +20,7 @@ function photographerTemplate(data) {
     const h2 = document.createElement("h2");
     h2.textContent = name;
 
-    //mise à jour de la fonction
+    //mise à jour des autres elements
     const location = document.createElement("p");
     location.textContent = `${city}, ${country}`;
     location.classList.add("photographer-location");
@@ -28,8 +33,13 @@ function photographerTemplate(data) {
     tarif.textContent = `${price}€/jour`;
     tarif.classList.add("photographer-price");
 
-    article.appendChild(img);
-    article.appendChild(h2);
+    // Assemble la carte dans le lien
+    link.appendChild(img);
+    link.appendChild(h2);
+
+    // Rajout du lien
+    article.appendChild(link);
+
     article.appendChild(location);
     article.appendChild(desc);
     article.appendChild(tarif);
