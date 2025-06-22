@@ -15,7 +15,7 @@ async function getPhotographers() {
 // Récupération de l'ID depuis l'URL
 function getPhotographerIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  return parseInt(params.get("id"), 10); // on le cast en nombre
+  return parseInt(params.get("id"), 10);
 }
 
 // Affichage dynamique
@@ -72,3 +72,27 @@ async function init() {
 }
 
 init();
+
+// Gestion ouverture modale
+const contactButton = document.querySelector(".contact_button");
+if (contactButton) {
+  contactButton.addEventListener("click", displayModal);
+  contactButton.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      displayModal();
+    }
+  });
+}
+
+// Gestion fermeture modale
+const closeButton = document.querySelector(".close_button");
+if (closeButton) {
+  closeButton.addEventListener("click", closeModal);
+  closeButton.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      closeModal();
+    }
+  });
+}
