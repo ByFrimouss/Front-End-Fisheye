@@ -1,4 +1,5 @@
 //Mettre le code JavaScript lié à la page photographer.html
+import { mediaFactory } from "./mediaFactory.js"; // si ce n'est pas déjà fait
 
 // Récupération des données
 async function getPhotographers() {
@@ -8,6 +9,18 @@ async function getPhotographers() {
     return data.photographers;
   } catch (error) {
     console.error("[getPhotographers] Erreur :", error);
+    return [];
+  }
+}
+
+// Récupère les médias depuis le fichier JSON
+async function getMedia() {
+  try {
+    const response = await fetch("../data/photographers.json");
+    const data = await response.json();
+    return data.media;
+  } catch (error) {
+    console.error("[getMedia] Erreur :", error);
     return [];
   }
 }
@@ -61,11 +74,17 @@ function displayPhotographerData(photographer) {
 // Initialisation
 async function init() {
   const id = getPhotographerIdFromUrl();
+
   const photographers = await getPhotographers();
   const selected = photographers.find((p) => p.id === id);
 
   if (selected) {
     displayPhotographerData(selected);
+
+    const mediaArray = await getMedia();
+    const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
+    console.log(photographerMedia); // ✅ Est-ce que ça affiche un tableau ?
+    displayPhotographerMedia(photographerMedia);
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }
@@ -94,5 +113,15 @@ if (closeButton) {
       e.preventDefault();
       closeModal();
     }
+  });
+}
+
+function displayPhotographerMedia(mediaArray) {
+  const gallerySection = document.querySelector(".media-gallery"); // 👈 à mettre dans ton HTML
+
+  mediaArray.forEach((media) => {
+    const mediaModel = mediaFactory(media);
+    const mediaCard = mediaModel.getMediaDOM(); // appelle ta méthode
+    gallerySection.appendChild(mediaCard);
   });
 }

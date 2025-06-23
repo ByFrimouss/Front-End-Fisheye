@@ -137,3 +137,55 @@ form input {
     margin: 20px 0;
   }
 }
+
+/* Galerie de photos du photographe */
+
+.media-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 350px);
+  gap: 10rem;
+  padding: 2rem;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.media-gallery article {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* .media-gallery article:hover {
+  transform: scale(1.02);
+} */
+
+.media-gallery img,
+.media-gallery video {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.media-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.media-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.media-likes {
+  color: #901c1c;
+  font-weight: bold;
+}
