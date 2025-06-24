@@ -125,37 +125,24 @@ form input {
   border-radius: 5px;
 }
 
-/* Responsive pour petits écrans */
-@media screen and (max-width: 768px) {
-  .photograph-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .contact_button {
-    margin: 20px 0;
-  }
-}
-
 /* Galerie de photos du photographe */
 
 .media-gallery {
   display: grid;
   grid-template-columns: repeat(3, 350px);
-  gap: 10rem;
-  padding: 2rem;
+  gap: 8rem;
   justify-content: center;
-  margin-top: 5rem;
+  padding: 2rem;
 }
 
 .media-gallery article {
   display: flex;
   flex-direction: column;
-  background-color: #f8f8f8;
+  width: 350px;
+  background-color: #c4c4c4;
   overflow: hidden;
-  transition: transform 0.3s ease;
   cursor: pointer;
+  transition: transform 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
@@ -165,8 +152,8 @@ form input {
 
 .media-gallery img,
 .media-gallery video {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  width: 350px;
+  height: 295px;
   object-fit: cover;
   display: block;
 }
@@ -176,7 +163,6 @@ form input {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  font-size: 1rem;
   background-color: white;
 }
 
@@ -188,4 +174,65 @@ form input {
 .media-likes {
   color: #901c1c;
   font-weight: bold;
+}
+
+/* Tarif du photographe */
+
+.price-tag {
+  position: fixed;
+  bottom: 0;
+  right: 2.5rem;
+  background-color: #db8876;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  z-index: 1000;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ------ 2 COLONNES de 768px à 1024px ------ */
+@media screen and (max-width: 1024px) {
+  .media-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .media-gallery article {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .media-gallery img,
+  .media-gallery video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* ------ 1 COLONNE en dessous de 768px ------ */
+@media screen and (max-width: 768px) {
+  .media-gallery {
+    grid-template-columns: 1fr !important;
+  }
+  .photograph-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact_button {
+    margin: 20px 0;
+  }
+
+  .price-tag {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
 }

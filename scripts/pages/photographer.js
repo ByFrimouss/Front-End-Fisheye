@@ -1,7 +1,21 @@
-//Mettre le code JavaScript lié à la page photographer.html
-import { mediaFactory } from "./mediaFactory.js"; // si ce n'est pas déjà fait
+// Mettre le code JavaScript lié à la page photographer.html
+import { mediaFactory } from "./mediaFactory.js";
 
-// Récupération des données
+// ===============================
+// Fonctions utilitaires
+// ===============================
+
+// Extrait l'ID du photographe depuis l'URL
+function getPhotographerIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return parseInt(params.get("id"), 10);
+}
+
+// ===============================
+// Récupération des données depuis le fichier JSON
+// ===============================
+
+// Récupèration de la liste des photographes
 async function getPhotographers() {
   try {
     const response = await fetch("../data/photographers.json");
@@ -13,7 +27,7 @@ async function getPhotographers() {
   }
 }
 
-// Récupère les médias depuis le fichier JSON
+// Récupération de la galerie médias
 async function getMedia() {
   try {
     const response = await fetch("../data/photographers.json");
@@ -25,13 +39,11 @@ async function getMedia() {
   }
 }
 
-// Récupération de l'ID depuis l'URL
-function getPhotographerIdFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return parseInt(params.get("id"), 10);
-}
+// ===============================
+// Affichage dans le DOM
+// ===============================
 
-// Affichage dynamique
+// Affiche les informations du photographe dans l'en-tête de la page
 function displayPhotographerData(photographer) {
   const header = document.querySelector(".photograph-header");
 
@@ -71,7 +83,32 @@ function displayPhotographerData(photographer) {
   header.appendChild(picture); // l'image va après le bouton
 }
 
-// Initialisation
+// Affichage dynamique des médias du photographe dans la galerie HTML
+function displayPhotographerMedia(mediaArray) {
+  const gallerySection = document.querySelector(".media-gallery");
+
+  mediaArray.forEach((media) => {
+    const mediaModel = mediaFactory(media);
+    const mediaCard = mediaModel.getMediaDOM();
+    gallerySection.appendChild(mediaCard);
+  });
+}
+
+// Crée dynamiquement un encart de prix en bas à droite de l'écran
+function displayPhotographerPrice(price) {
+  const priceTag = document.createElement("div");
+  priceTag.classList.add("price-tag");
+  priceTag.setAttribute("aria-label", "Tarif journalier du photographe");
+
+  priceTag.innerHTML = `<span>${price}€ / jour</span>`;
+  document.body.appendChild(priceTag);
+}
+
+// ===============================
+// Initialisation globale
+// ===============================
+
+// Initialise la page du photographe avec ses données et ses médias
 async function init() {
   const id = getPhotographerIdFromUrl();
 
@@ -79,11 +116,12 @@ async function init() {
   const selected = photographers.find((p) => p.id === id);
 
   if (selected) {
-    displayPhotographerData(selected);
+    displayPhotographerData(selected); // Affiche les infos du photographe
+    displayPhotographerPrice(selected.price); // Affiche le tarif en bas à droite
 
     const mediaArray = await getMedia();
     const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
-    console.log(photographerMedia); // ✅ Est-ce que ça affiche un tableau ?
+    console.log(photographerMedia);
     displayPhotographerMedia(photographerMedia);
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
@@ -92,7 +130,10 @@ async function init() {
 
 init();
 
-// Gestion ouverture modale
+// ===============================
+// Gestion de la modale contact
+// ===============================
+// Ouverture modale
 const contactButton = document.querySelector(".contact_button");
 if (contactButton) {
   contactButton.addEventListener("click", displayModal);
@@ -104,7 +145,7 @@ if (contactButton) {
   });
 }
 
-// Gestion fermeture modale
+// Fermeture modale
 const closeButton = document.querySelector(".close_button");
 if (closeButton) {
   closeButton.addEventListener("click", closeModal);
@@ -113,15 +154,5 @@ if (closeButton) {
       e.preventDefault();
       closeModal();
     }
-  });
-}
-
-function displayPhotographerMedia(mediaArray) {
-  const gallerySection = document.querySelector(".media-gallery"); // 👈 à mettre dans ton HTML
-
-  mediaArray.forEach((media) => {
-    const mediaModel = mediaFactory(media);
-    const mediaCard = mediaModel.getMediaDOM(); // appelle ta méthode
-    gallerySection.appendChild(mediaCard);
   });
 }
