@@ -1,5 +1,6 @@
 // Mettre le code JavaScript lié à la page photographer.html
 import { mediaFactory } from "./mediaFactory.js";
+import { displayModal, closeModal } from "../utils/contactForm.js";
 
 // ===============================
 // Fonctions utilitaires
@@ -123,6 +124,9 @@ async function init() {
     const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
     console.log(photographerMedia);
     displayPhotographerMedia(photographerMedia);
+
+    // ✅ Active les événements d’ouverture/fermeture de la modale
+    initModalEvents();
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }
@@ -133,26 +137,29 @@ init();
 // ===============================
 // Gestion de la modale contact
 // ===============================
-// Ouverture modale
-const contactButton = document.querySelector(".contact_button");
-if (contactButton) {
-  contactButton.addEventListener("click", displayModal);
-  contactButton.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      displayModal();
-    }
-  });
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const openModalBtn = document.querySelector(
+    ".photograph-header .contact_button"
+  );
+  const closeModalBtn = document.querySelector(".close_button");
 
-// Fermeture modale
-const closeButton = document.querySelector(".close_button");
-if (closeButton) {
-  closeButton.addEventListener("click", closeModal);
-  closeButton.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      closeModal();
-    }
-  });
-}
+  if (openModalBtn) {
+    openModalBtn.addEventListener("click", displayModal);
+    openModalBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        displayModal();
+      }
+    });
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", closeModal);
+    closeModalBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+  }
+});
