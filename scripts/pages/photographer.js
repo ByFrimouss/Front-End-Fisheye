@@ -5,6 +5,8 @@ import {
   closeModal,
   initModalEvents,
 } from "../utils/contactForm.js";
+import { openLightbox, initLightboxEvents } from "../utils/lightbox.js";
+
 console.log("[photographer.js] initModalEvents importée avec succès");
 
 // ===============================
@@ -100,6 +102,31 @@ function displayPhotographerMedia(mediaArray) {
   });
 }
 
+// ===============================
+// Initialisation de la galerie
+// ===============================
+
+// Fonction qui ajoute les événements de lightbox sur chaque média
+function initGallery(mediaArray) {
+  const mediaElements = document.querySelectorAll(".media-card");
+
+  mediaElements.forEach((element, index) => {
+    element.addEventListener("click", () => {
+      openLightbox(index, mediaArray);
+    });
+
+    element.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLightbox(index, mediaArray);
+      }
+    });
+  });
+
+  // Initialise les contrôles clavier et boutons
+  initLightboxEvents();
+}
+
 // Crée dynamiquement un encart de prix en bas à droite de l'écran
 function displayPhotographerPrice(price) {
   const priceTag = document.createElement("div");
@@ -130,10 +157,20 @@ async function init() {
     const mediaArray = await getMedia();
     const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
     console.log(photographerMedia);
-    displayPhotographerMedia(photographerMedia);
+    displayPhotographerMedia(photographerMedia); // Injecte les cartes médias dans la galerie
 
-    // Active les événements d’ouverture/fermeture de la modale
-    initModalEvents();
+    initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
+    initLightboxEvents(); // Active les events globaux de la lightbox (flèches, esc, etc.)
+
+    // 🧠 CLIC SUR UNE IMAGE = ouverture de la lightbox avec le bon média
+    document
+      .querySelectorAll(".media-gallery article a")
+      .forEach((link, index) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          openLightbox(photographerMedia[index], index, photographerMedia);
+        });
+      });
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }

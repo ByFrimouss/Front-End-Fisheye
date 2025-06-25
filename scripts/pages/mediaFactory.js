@@ -1,9 +1,13 @@
 export function mediaFactory(media) {
   const { image, video, title } = media;
-  const mediaPath = `../assets/media/${media.photographerId}/${image || video}`;
+  const mediaPath = `../assets/media/${media.photographerId}/${
+    media.image || media.video
+  }`;
 
   function getMediaDOM() {
     const mediaArticle = document.createElement("article");
+    mediaArticle.classList.add("media-card"); // Pour la lightbox
+    mediaArticle.setAttribute("tabindex", "0"); // Accessibilité clavier
 
     // Crée élément media : image ou vidéo
     let mediaElement;

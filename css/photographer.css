@@ -225,6 +225,47 @@ form input {
   justify-content: center;
 }
 
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-media img,
+.lightbox-media video {
+  max-width: 90%;
+  max-height: 80vh;
+  margin: auto;
+}
+
+.lightbox button {
+  background: none;
+  border: none;
+  color: #901c1c;
+  font-size: 2rem;
+  cursor: pointer;
+  position: absolute;
+}
+
+.lightbox-close {
+  top: 1rem;
+  right: 1rem;
+}
+.lightbox-prev {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lightbox-next {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* ------ 2 COLONNES de 768px à 1024px ------ */
 @media screen and (max-width: 1024px) {
   .media-gallery {
