@@ -23,6 +23,8 @@ export function closeModal() {
     console.error("[closeModal] Erreur : modale introuvable.");
     return;
   }
+
+  document.activeElement.blur(); // Retire le focus de la modale avant de la masquer
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
   console.log("[closeModal] Modale fermée");
@@ -37,6 +39,7 @@ export function closeModal() {
  */
 export function initModalEvents() {
   const contactButton = document.querySelector(".contact_button");
+  if (contactButton) contactButton.focus(); // Mettre le focus sur le bouton “Contactez-moi” à la fermeture
   const closeButton = document.querySelector(".close_button");
 
   if (!contactButton || !closeButton) {
@@ -75,7 +78,7 @@ export function initModalEvents() {
 const form = document.getElementById("contact-form");
 if (form) {
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // évite le reload
+    e.preventDefault(); // évite le rechargement de la page
 
     const data = {
       firstName: form.firstName.value.trim(),
@@ -84,11 +87,12 @@ if (form) {
       message: form.message.value.trim(),
     };
 
-    console.log("[Formulaire soumis]", {
-      name: `${firstName} ${lastName}`,
-      email,
-      message,
-    });
+    console.log("[Formulaire soumis]");
+    // console.log("Prénom :", data.firstName);
+    console.log("Nom :", data.lastName);
+    console.log("Email :", data.email);
+    console.log("Message :", data.message);
+
     closeModal();
   });
 }

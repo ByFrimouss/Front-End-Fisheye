@@ -1,7 +1,10 @@
 // Mettre le code JavaScript lié à la page photographer.html
 import { mediaFactory } from "./mediaFactory.js";
-import { displayModal, closeModal } from "../utils/contactForm.js";
-import { initModalEvents } from "../utils/contactForm.js";
+import {
+  displayModal,
+  closeModal,
+  initModalEvents,
+} from "../utils/contactForm.js";
 console.log("[photographer.js] initModalEvents importée avec succès");
 
 // ===============================
