@@ -1,6 +1,8 @@
 // Mettre le code JavaScript lié à la page photographer.html
 import { mediaFactory } from "./mediaFactory.js";
 import { displayModal, closeModal } from "../utils/contactForm.js";
+import { initModalEvents } from "../utils/contactForm.js";
+console.log("[photographer.js] initModalEvents importée avec succès");
 
 // ===============================
 // Fonctions utilitaires
@@ -118,6 +120,8 @@ async function init() {
 
   if (selected) {
     displayPhotographerData(selected); // Affiche les infos du photographe
+    updateModalTitle(selected.name);
+
     displayPhotographerPrice(selected.price); // Affiche le tarif en bas à droite
 
     const mediaArray = await getMedia();
@@ -137,6 +141,7 @@ init();
 // ===============================
 // Gestion de la modale contact
 // ===============================
+
 document.addEventListener("DOMContentLoaded", () => {
   const openModalBtn = document.querySelector(
     ".photograph-header .contact_button"
@@ -163,3 +168,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Génère le nom du photographe
+function updateModalTitle(photographerName) {
+  const modalTitle = document.getElementById("contact_modal_title");
+  if (modalTitle) {
+    modalTitle.textContent = `Contactez-moi ${photographerName}`;
+  }
+}

@@ -10,6 +10,8 @@ export function displayModal() {
   modal.style.display = "block";
   modal.setAttribute("aria-hidden", "false");
   console.log("[displayModal] Modale affichée");
+  modal.focus(); // Focus direct sur la modale
+  document.body.classList.add("modal-open");
 }
 
 /**
@@ -24,6 +26,7 @@ export function closeModal() {
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
   console.log("[closeModal] Modale fermée");
+  document.body.classList.remove("modal-open");
 }
 
 /**
@@ -67,4 +70,25 @@ export function initModalEvents() {
   });
 
   console.log("[initModalEvents] Événements modale initialisés");
+}
+
+const form = document.getElementById("contact-form");
+if (form) {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // évite le reload
+
+    const data = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      message: form.message.value.trim(),
+    };
+
+    console.log("[Formulaire soumis]", {
+      name: `${firstName} ${lastName}`,
+      email,
+      message,
+    });
+    closeModal();
+  });
 }
