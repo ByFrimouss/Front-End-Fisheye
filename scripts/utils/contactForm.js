@@ -41,7 +41,7 @@ export function initModalEvents() {
     return;
   }
 
-  // ✅ Ouverture modale
+  // Ouverture modale
   contactButton.addEventListener("click", displayModal);
   contactButton.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -50,7 +50,7 @@ export function initModalEvents() {
     }
   });
 
-  // ✅ Fermeture modale
+  // Fermeture modale
   closeButton.addEventListener("click", closeModal);
   closeButton.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -59,7 +59,7 @@ export function initModalEvents() {
     }
   });
 
-  // (Optionnel) Échap pour fermer
+  // Échap pour fermer
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeModal();

@@ -125,7 +125,7 @@ async function init() {
     console.log(photographerMedia);
     displayPhotographerMedia(photographerMedia);
 
-    // ✅ Active les événements d’ouverture/fermeture de la modale
+    // Active les événements d’ouverture/fermeture de la modale
     initModalEvents();
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
