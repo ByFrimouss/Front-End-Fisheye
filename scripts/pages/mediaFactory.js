@@ -1,15 +1,14 @@
 export function mediaFactory(media) {
   const { image, video, title } = media;
-  const mediaPath = `../assets/media/${media.photographerId}/${
-    media.image || media.video
-  }`;
+  const mediaPath = `../assets/media/${media.photographerId}/${image || video}`;
 
   function getMediaDOM() {
     const mediaArticle = document.createElement("article");
-    mediaArticle.classList.add("media-card"); // Pour la lightbox
-    mediaArticle.setAttribute("tabindex", "0"); // Accessibilité clavier
 
-    // Crée élément media : image ou vidéo
+    const mediaLink = document.createElement("a");
+    mediaLink.setAttribute("href", "#");
+    mediaLink.setAttribute("aria-label", `${title}`);
+
     let mediaElement;
     if (image) {
       mediaElement = document.createElement("img");
@@ -18,14 +17,14 @@ export function mediaFactory(media) {
     } else if (video) {
       mediaElement = document.createElement("video");
       mediaElement.setAttribute("src", mediaPath);
-      mediaElement.setAttribute("title", title);
       mediaElement.setAttribute("aria-label", `${title}, vidéo`);
-      //mediaElement.setAttribute("controls", true);  Pour test, à retirer pour lightbox plus tard
     }
 
-    // Titre + likes
-    const mediaInfo = document.createElement("div");
-    mediaInfo.classList.add("media-info");
+    mediaLink.appendChild(mediaElement);
+    mediaArticle.appendChild(mediaLink);
+
+    const info = document.createElement("div");
+    info.classList.add("media-info");
 
     const mediaTitle = document.createElement("h3");
     mediaTitle.textContent = title;
@@ -34,14 +33,9 @@ export function mediaFactory(media) {
     likes.classList.add("media-likes");
     likes.textContent = `${media.likes} ❤`;
 
-    mediaInfo.appendChild(mediaTitle);
-    mediaInfo.appendChild(likes);
-
-    const mediaLink = document.createElement("a");
-    mediaLink.setAttribute("href", "#"); // lien vers la lightbox
-    mediaLink.appendChild(mediaElement);
-    mediaArticle.appendChild(mediaLink);
-    mediaArticle.appendChild(mediaInfo);
+    info.appendChild(mediaTitle);
+    info.appendChild(likes);
+    mediaArticle.appendChild(info);
 
     return mediaArticle;
   }

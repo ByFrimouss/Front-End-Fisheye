@@ -252,16 +252,16 @@ form input {
 }
 
 .lightbox-close {
-  top: 1rem;
-  right: 1rem;
+  top: 7rem;
+  right: 15rem;
 }
 .lightbox-prev {
-  left: 1rem;
+  left: 7rem;
   top: 50%;
   transform: translateY(-50%);
 }
 .lightbox-next {
-  right: 1rem;
+  right: 15rem;
   top: 50%;
   transform: translateY(-50%);
 }
