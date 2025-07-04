@@ -70,7 +70,7 @@ async function displayData(photographers) {
 
 /**
  * Point d'entrée de l'application
- * Initialise l'affichage en important les données
+ * Initialise l'affichage en important les données JSON
  */
 async function init() {
   //console.log("[init] Initialisation");
@@ -78,7 +78,7 @@ async function init() {
   const { photographers } = await getPhotographers();
   //console.log("[init] Données retournées par getPhotographers :", photographers);
 
-  //Affiche les cartes des phtographes dans le DOM
+  //Affiche les cartes des phOtographes dans le DOM
   displayData(photographers);
 }
 

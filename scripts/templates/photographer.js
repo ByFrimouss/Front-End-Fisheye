@@ -20,7 +20,7 @@ function photographerTemplate(data) {
     const h2 = document.createElement("h2");
     h2.textContent = name;
 
-    // mise à jour des autres elements
+    //mise à jour des autres elements
     const location = document.createElement("p");
     location.textContent = `${city}, ${country}`;
     location.classList.add("photographer-location");

@@ -1,3 +1,6 @@
+// importer dans mediaFactory.js
+import { incrementTotalLikes, decrementTotalLikes } from "./photographer.js";
+
 export function mediaFactory(media) {
   const { image, video, title } = media;
   const mediaPath = `../assets/media/${media.photographerId}/${image || video}`;
@@ -29,13 +32,42 @@ export function mediaFactory(media) {
     const mediaTitle = document.createElement("h3");
     mediaTitle.textContent = title;
 
-    const likes = document.createElement("span");
-    likes.classList.add("media-likes");
-    likes.textContent = `${media.likes} ❤`;
+    const likesContainer = document.createElement("div");
+    likesContainer.classList.add("likes-container");
+
+    const likesCount = document.createElement("span");
+    likesCount.classList.add("media-likes");
+    likesCount.textContent = media.likes;
+
+    const likeBtn = document.createElement("button");
+    likeBtn.classList.add("like-btn");
+    likeBtn.setAttribute("aria-label", "Aimer");
+    likeBtn.innerHTML = "❤";
+
+    likesContainer.appendChild(likesCount);
+    likesContainer.appendChild(likeBtn);
 
     info.appendChild(mediaTitle);
-    info.appendChild(likes);
+    info.appendChild(likesContainer);
     mediaArticle.appendChild(info);
+
+    // Gestion du like : un seul clic par média
+    let liked = false;
+
+    likeBtn.addEventListener("click", () => {
+      if (!liked) {
+        media.likes += 1;
+        likesCount.textContent = media.likes;
+        incrementTotalLikes();
+        liked = true;
+      } else {
+        // Optionnel : toggle pour dé-liker
+        media.likes -= 1;
+        likesCount.textContent = media.likes;
+        decrementTotalLikes();
+        liked = false;
+      }
+    });
 
     return mediaArticle;
   }

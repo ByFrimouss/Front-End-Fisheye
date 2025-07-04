@@ -23,7 +23,7 @@ function getPhotographerIdFromUrl() {
 // Récupération des données depuis le fichier JSON
 // ===============================
 
-// Récupèration de la liste des photographes
+// Récupération de la liste des photographes
 async function getPhotographers() {
   try {
     const response = await fetch("../data/photographers.json");
@@ -127,13 +127,20 @@ function initGallery(mediaArray) {
   initLightboxEvents();
 }
 
-// Crée dynamiquement un encart de prix en bas à droite de l'écran
-function displayPhotographerPrice(price) {
+// Crée dynamiquement un encart de prix et de like en bas à droite de l'écran
+function displayPhotographerPrice(price, totalLikes) {
   const priceTag = document.createElement("div");
   priceTag.classList.add("price-tag");
-  priceTag.setAttribute("aria-label", "Tarif journalier du photographe");
+  priceTag.setAttribute(
+    "aria-label",
+    "Tarif journalier et likes du photographe"
+  );
 
-  priceTag.innerHTML = `<span>${price}€ / jour</span>`;
+  priceTag.innerHTML = ` <span class="total-likes">
+      <span id="totalLikes">${totalLikes}</span> ❤
+    </span>
+    <span>${price}€ / jour</span>
+  `;
   document.body.appendChild(priceTag);
 }
 
@@ -152,17 +159,20 @@ async function init() {
     displayPhotographerData(selected); // Affiche les infos du photographe
     updateModalTitle(selected.name);
 
-    displayPhotographerPrice(selected.price); // Affiche le tarif en bas à droite
-
     const mediaArray = await getMedia();
     const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
     console.log(photographerMedia);
+
+    // Affiche le tarif et les likes en bas à droite
+    const totalLikes = photographerMedia.reduce((sum, m) => sum + m.likes, 0);
+    displayPhotographerPrice(selected.price, totalLikes);
+
     displayPhotographerMedia(photographerMedia); // Injecte les cartes médias dans la galerie
 
     initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
     initLightboxEvents(); // Active les events globaux de la lightbox (flèches, esc, etc.)
 
-    // 🧠 CLIC SUR UNE IMAGE = ouverture de la lightbox avec le bon média
+    // Ouverture de la lightbox avec le bon média
     document
       .querySelectorAll(".media-gallery article a")
       .forEach((link, index) => {
@@ -215,4 +225,16 @@ function updateModalTitle(photographerName) {
   if (modalTitle) {
     modalTitle.textContent = `Contactez-moi ${photographerName}`;
   }
+}
+
+export function incrementTotalLikes() {
+  const totalLikesElement = document.getElementById("totalLikes");
+  let current = parseInt(totalLikesElement.textContent, 10);
+  totalLikesElement.textContent = current + 1;
+}
+
+export function decrementTotalLikes() {
+  const totalLikesElement = document.getElementById("totalLikes");
+  let current = parseInt(totalLikesElement.textContent, 10);
+  totalLikesElement.textContent = current - 1;
 }
