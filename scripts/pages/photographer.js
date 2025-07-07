@@ -209,7 +209,7 @@ async function init() {
       gallery.innerHTML = "";
       displayPhotographerMedia(mediaArray);
 
-      // ✅ Ré-initialise la lightbox après avoir ré-injecté les médias
+      // Ré-initialise la lightbox après avoir ré-injecté les médias
       document
         .querySelectorAll(".media-gallery article a")
         .forEach((link, index) => {
