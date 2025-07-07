@@ -181,6 +181,44 @@ async function init() {
           openLightbox(photographerMedia[index], index, photographerMedia);
         });
       });
+
+    const sortSelect = document.getElementById("sortSelect");
+    sortSelect.addEventListener("change", (event) => {
+      const criterion = event.target.value;
+      sortMedia(photographerMedia, criterion);
+    });
+
+    // Fonction de tri
+    function sortMedia(mediaArray, criterion) {
+      switch (criterion) {
+        case "popularity":
+          mediaArray.sort((a, b) => b.likes - a.likes);
+          break;
+        case "date":
+          mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case "title":
+          mediaArray.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        default:
+          break;
+      }
+
+      // Vider la galerie et ré-injecter les médias triés
+      const gallery = document.querySelector(".media-gallery");
+      gallery.innerHTML = "";
+      displayPhotographerMedia(mediaArray);
+
+      // ✅ Ré-initialise la lightbox après avoir ré-injecté les médias
+      document
+        .querySelectorAll(".media-gallery article a")
+        .forEach((link, index) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            openLightbox(index, photographerMedia);
+          });
+        });
+    }
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }
