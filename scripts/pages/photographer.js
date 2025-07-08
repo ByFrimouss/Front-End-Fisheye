@@ -182,13 +182,54 @@ async function init() {
         });
       });
 
-    const sortSelect = document.getElementById("sortSelect");
-    sortSelect.addEventListener("change", (event) => {
-      const criterion = event.target.value;
-      sortMedia(photographerMedia, criterion);
+    // CUSTOM SELECT
+    const sortButton = document.getElementById("sortButton");
+    const sortOptions = document.getElementById("sortOptions");
+    const customSelect = document.querySelector(".custom-select");
+    const criteria = ["popularity", "date", "title"];
+
+    function getLabel(value) {
+      if (value === "popularity") return "Popularité";
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+
+    sortButton.addEventListener("click", () => {
+      const expanded = sortButton.getAttribute("aria-expanded") === "true";
+      sortButton.setAttribute("aria-expanded", String(!expanded));
+      customSelect.classList.toggle("open");
     });
 
-    // Fonction de tri
+    function buildOptions(selectedValue) {
+      const available = criteria.filter((c) => c !== selectedValue);
+      sortOptions.innerHTML = "";
+      available.forEach((crit) => {
+        const li = document.createElement("li");
+        li.dataset.value = crit;
+        li.textContent = getLabel(crit);
+        li.addEventListener("click", () => {
+          sortButton.childNodes[0].nodeValue = getLabel(crit);
+          sortButton.dataset.value = crit;
+          buildOptions(crit);
+          customSelect.classList.remove("open");
+          sortButton.setAttribute("aria-expanded", "false");
+          sortMedia(photographerMedia, crit);
+        });
+        sortOptions.appendChild(li);
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!customSelect.contains(e.target)) {
+        customSelect.classList.remove("open");
+        sortButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    sortButton.childNodes[0].nodeValue = getLabel("popularity");
+    sortButton.dataset.value = "popularity";
+    buildOptions("popularity");
+
+    // Fonction de TRI
     function sortMedia(mediaArray, criterion) {
       switch (criterion) {
         case "popularity":
@@ -199,8 +240,6 @@ async function init() {
           break;
         case "title":
           mediaArray.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        default:
           break;
       }
 
@@ -215,7 +254,7 @@ async function init() {
         .forEach((link, index) => {
           link.addEventListener("click", (e) => {
             e.preventDefault();
-            openLightbox(index, photographerMedia);
+            openLightbox(photographerMedia[index], index, photographerMedia);
           });
         });
     }

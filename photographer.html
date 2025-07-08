@@ -25,6 +25,28 @@
           Contactez-moi
         </button>
       </div>
+
+      <!-- Système de tri -->
+      <div class="media-sort">
+        <label for="customSort">Trier par</label>
+        <div class="custom-select" id="customSelect">
+          <button
+            id="sortButton"
+            type="button"
+            data-value="popularity"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            Popularité <span class="arrow"></span>
+          </button>
+          <ul id="sortOptions" role="listbox">
+            <li data-value="date">Date</li>
+            <li data-value="title">Titre</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Galerie d'images -->
       <section
         class="media-gallery"
         aria-label="Galerie de médias du photographe"
@@ -97,13 +119,6 @@
         &#x276F;
       </button>
     </div>
-
-    <label for="sortSelect">Trier par :</label>
-    <select id="sortSelect" aria-label="Trier les médias">
-      <option value="popularity">Popularité</option>
-      <option value="date">Date</option>
-      <option value="title">Titre</option>
-    </select>
 
     <!-- Changement du script avec rajout du type="module" pour l'importation et l'exportation des fonctions -->
     <script type="module" src="/scripts/pages/photographer.js"></script>
