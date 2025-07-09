@@ -172,16 +172,6 @@ async function init() {
     initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
     initLightboxEvents(); // Active les events globaux de la lightbox (flèches, esc, etc.)
 
-    // Ouverture de la lightbox avec le bon média
-    document
-      .querySelectorAll(".media-gallery article a")
-      .forEach((link, index) => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          openLightbox(photographerMedia[index], index, photographerMedia);
-        });
-      });
-
     // CUSTOM SELECT POUR LES FILTRES
     const sortButton = document.getElementById("sortButton");
     const sortOptions = document.getElementById("sortOptions");
@@ -285,16 +275,7 @@ async function init() {
       const gallery = document.querySelector(".media-gallery");
       gallery.innerHTML = "";
       displayPhotographerMedia(mediaArray);
-
-      // Ré-initialise la lightbox après avoir ré-injecté les médias
-      document
-        .querySelectorAll(".media-gallery article a")
-        .forEach((link, index) => {
-          link.addEventListener("click", (e) => {
-            e.preventDefault();
-            openLightbox(photographerMedia[index], index, photographerMedia);
-          });
-        });
+      initGallery(mediaArray);
     }
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);

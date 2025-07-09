@@ -1,3 +1,5 @@
+import { photographerTemplate } from "../templates/photographer.js";
+
 /**
  * Récupère les données des photographes depuis un fichier JSON local
  * Utilise fetch + async/await pour gérer les appels asynchrones

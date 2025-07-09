@@ -7,6 +7,7 @@ export function mediaFactory(media) {
 
   function getMediaDOM() {
     const mediaArticle = document.createElement("article");
+    mediaArticle.classList.add("media-card");
 
     const mediaLink = document.createElement("a");
     mediaLink.setAttribute("href", "#");

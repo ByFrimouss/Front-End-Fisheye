@@ -1,4 +1,4 @@
-function photographerTemplate(data) {
+export function photographerTemplate(data) {
   const { name, portrait, id, city, country, tagline, price } = data; // mise en place du tableau JSON
 
   const picture = `assets/photographers/${portrait}`;
