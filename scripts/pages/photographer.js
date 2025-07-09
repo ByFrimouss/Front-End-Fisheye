@@ -186,7 +186,7 @@ async function init() {
     const sortButton = document.getElementById("sortButton");
     const sortOptions = document.getElementById("sortOptions");
     const customSelect = document.querySelector(".custom-select");
-    const criteria = ["popularity", "date", "title"];
+    const criteria = ["popularity", "date", "titre"];
 
     function getLabel(value) {
       if (value === "popularity") return "Popularité";
@@ -238,7 +238,7 @@ async function init() {
         case "date":
           mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
           break;
-        case "title":
+        case "titre":
           mediaArray.sort((a, b) => a.title.localeCompare(b.title));
           break;
       }

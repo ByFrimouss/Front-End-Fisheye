@@ -160,43 +160,61 @@ form input {
 .custom-select {
   position: relative;
   display: inline-block;
+  margin-left: 1.5rem;
+}
+
+.media-sort {
+  margin-left: 100px;
+}
+
+.media-sort label {
+  font-size: 1.125rem;
+  font-weight: bold;
 }
 
 #sortButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #901c1c;
   color: white;
-  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.125rem;
-  position: relative;
+  width: 150px;
+  text-align: left;
 }
 
-#sortButton .arrow {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0.75rem;
-  height: 0.75rem;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: translateY(-50%) rotate(45deg);
+.custom-select ul li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-top: 1px solid white;
+}
+
+#sortButton svg.arrow {
+  margin-left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.custom-select.open #sortButton svg.arrow {
+  transform: rotate(180deg);
 }
 
 .custom-select ul {
   display: none;
   position: absolute;
+  left: 0;
   background-color: #901c1c;
   color: white;
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
-  border-radius: 5px;
+
   z-index: 10;
 }
 
@@ -210,7 +228,7 @@ form input {
 }
 
 .custom-select ul li:hover {
-  background-color: #db2f2f; /* rose plus clair */
+  background-color: #db8876;
 }
 
 /* Galerie de photos du photographe */
