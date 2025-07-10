@@ -54,14 +54,16 @@ export function mediaFactory(media) {
     // Gestion du like : un seul clic par média
     let liked = false;
 
-    likeBtn.addEventListener("click", () => {
+    likeBtn.addEventListener("click", (event) => {
+      event.stopPropagation(); // Bloque la bulle
+      event.preventDefault(); // Bloque le href="#"
+
       if (!liked) {
         media.likes += 1;
         likesCount.textContent = media.likes;
         incrementTotalLikes();
         liked = true;
       } else {
-        // Toggle pour dé-liker
         media.likes -= 1;
         likesCount.textContent = media.likes;
         decrementTotalLikes();

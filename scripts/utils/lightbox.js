@@ -31,7 +31,7 @@ export function openLightbox(media, index, mediaArray) {
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
-  // Met le focus sur le bouton fermer
+  // Focus sur le bouton fermer
   const closeBtn = lightbox.querySelector(".lightbox-close");
   if (closeBtn) {
     closeBtn.focus();
@@ -43,6 +43,10 @@ export function closeLightbox() {
   lightbox.style.display = "none";
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "auto";
+
+  // Focus sur le bouton "Contact"
+  const fallbackFocus = document.querySelector(".contact_button");
+  if (fallbackFocus) fallbackFocus.focus();
 }
 
 export function showNextMedia() {
