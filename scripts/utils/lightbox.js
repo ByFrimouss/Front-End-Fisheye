@@ -30,6 +30,12 @@ export function openLightbox(media, index, mediaArray) {
   lightbox.style.display = "flex";
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+
+  // Met le focus sur le bouton fermer
+  const closeBtn = lightbox.querySelector(".lightbox-close");
+  if (closeBtn) {
+    closeBtn.focus();
+  }
 }
 
 export function closeLightbox() {
