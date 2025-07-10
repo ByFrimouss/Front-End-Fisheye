@@ -1,4 +1,3 @@
-// importer dans mediaFactory.js
 import { incrementTotalLikes, decrementTotalLikes } from "./photographer.js";
 
 export function mediaFactory(media) {
@@ -62,7 +61,7 @@ export function mediaFactory(media) {
         incrementTotalLikes();
         liked = true;
       } else {
-        // Optionnel : toggle pour dé-liker
+        // Toggle pour dé-liker
         media.likes -= 1;
         likesCount.textContent = media.likes;
         decrementTotalLikes();

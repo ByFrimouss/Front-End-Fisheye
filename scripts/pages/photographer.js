@@ -112,13 +112,13 @@ function initGallery(mediaArray) {
 
   mediaElements.forEach((element, index) => {
     element.addEventListener("click", () => {
-      openLightbox(index, mediaArray);
+      openLightbox(mediaArray[index], index, mediaArray);
     });
 
     element.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        openLightbox(index, mediaArray);
+        openLightbox(mediaArray[index], index, mediaArray);
       }
     });
   });
@@ -168,6 +168,8 @@ async function init() {
     displayPhotographerPrice(selected.price, totalLikes);
 
     displayPhotographerMedia(photographerMedia); // Injecte les cartes médias dans la galerie
+
+    initGallery(photographerMedia);
 
     initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
     initLightboxEvents(); // Active les events globaux de la lightbox (flèches, esc, etc.)
