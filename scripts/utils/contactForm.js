@@ -1,6 +1,4 @@
-/**
- * Affiche la modale de contact
- */
+/* Affiche la modale de contact */
 export function displayModal() {
   const modal = document.getElementById("contact_modal");
   if (!modal) {
@@ -14,9 +12,7 @@ export function displayModal() {
   document.body.classList.add("modal-open");
 }
 
-/**
- * Ferme la modale de contact
- */
+/* Ferme la modale de contact */
 export function closeModal() {
   const modal = document.getElementById("contact_modal");
   if (!modal) {

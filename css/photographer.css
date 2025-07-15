@@ -262,6 +262,7 @@ form input {
   height: 295px;
   object-fit: cover;
   display: block;
+  border-radius: 5px;
 }
 
 .media-info {
