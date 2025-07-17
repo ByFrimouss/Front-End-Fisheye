@@ -35,7 +35,7 @@ export function closeModal() {
  */
 export function initModalEvents() {
   const contactButton = document.querySelector(".contact_button");
-  if (contactButton) contactButton.focus(); // Mettre le focus sur le bouton “Contactez-moi” à la fermeture
+  if (contactButton) contactButton.focus(); // focus sur le bouton “Contactez-moi” à la fermeture
   const closeButton = document.querySelector(".close_button");
 
   if (!contactButton || !closeButton) {

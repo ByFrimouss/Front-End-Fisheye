@@ -54,34 +54,29 @@ async function getPhotographers() {
 /**
  * Affiche dynamiquement les cartes de photographes sur la page
  */
-async function displayData(photographers) {
+async function displayPhotographers(photographers) {
   //console.log("[displayData] Données reçues :", photographers);
   const photographersSection = document.querySelector(".photographer_section");
 
   photographers.forEach((photographer) => {
     //console.log("[displayData] Photographe en cours :", photographer.name);
 
-    // Création du modèle de photographe
-    const photographerModel = photographerTemplate(photographer);
-    // Récupère l'élément DOM à insérer
-    const userCardDOM = photographerModel.getUserCardDOM();
+    // Création le profil du photographe et récupère l'élément DOM à insérer
+    const card = photographerTemplate(photographer).getUserCardDOM();
     // Ajoute la carte dans la section dédiée
-    photographersSection.appendChild(userCardDOM);
+    photographersSection.appendChild(card);
   });
 }
 
-/**
- * Point d'entrée de l'application
- * Initialise l'affichage en important les données JSON
- */
+/*** Initialise l'affichage en important les données JSON ***/
 async function init() {
   //console.log("[init] Initialisation");
   // Récupère les données des photographes
   const { photographers } = await getPhotographers();
   //console.log("[init] Données retournées par getPhotographers :", photographers);
 
-  //Affiche les cartes des phOtographes dans le DOM
-  displayData(photographers);
+  //Affiche les cartes des photographes dans le DOM
+  displayPhotographers(photographers);
 }
 
 init();
