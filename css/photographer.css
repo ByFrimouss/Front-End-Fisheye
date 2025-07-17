@@ -164,7 +164,7 @@ form input {
 }
 
 .media-sort {
-  margin-left: 100px;
+  margin: 30px 100px;
 }
 
 .media-sort label {
@@ -355,6 +355,11 @@ form input {
   right: 15rem;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.lightbox-title {
+  color: #901c1c;
+  font-size: 1.2rem;
 }
 
 /* ------ 2 COLONNES de 768px à 1024px ------ */

@@ -1,4 +1,4 @@
-import { incrementTotalLikes, decrementTotalLikes } from "./photographer.js";
+import { incrementTotalLikes, decrementTotalLikes } from "./like.js";
 
 export function mediaFactory(media) {
   const { image, video, title } = media;

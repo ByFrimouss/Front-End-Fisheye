@@ -1,11 +1,17 @@
 // Mettre le code JavaScript lié à la page photographer.html
-import { mediaFactory } from "./mediaFactory.js";
+
+// ===============================
+// Importation des fonctions
+// ===============================
+import { getPhotographers, getMedia } from "../utils/api.js";
 import {
-  displayModal,
-  closeModal,
-  initModalEvents,
-} from "../utils/contactForm.js";
-import { openLightbox, initLightboxEvents } from "../utils/lightbox.js";
+  displayPhotographerPrice,
+  displayPhotographerMedia,
+  initGallery,
+} from "../utils/gallery.js";
+import { initCustomSelect } from "../utils/sort.js";
+import { initModalEvents, updateModalTitle } from "../utils/contactForm.js";
+import { initLightboxEvents } from "../utils/lightbox.js";
 
 console.log("[photographer.js] initModalEvents importée avec succès");
 
@@ -20,34 +26,6 @@ function getPhotographerIdFromUrl() {
 }
 
 // ===============================
-// Récupération des données depuis le fichier JSON
-// ===============================
-
-// Récupération de la liste des photographes
-async function getPhotographers() {
-  try {
-    const response = await fetch("../data/photographers.json");
-    const data = await response.json();
-    return data.photographers;
-  } catch (error) {
-    console.error("[getPhotographers] Erreur :", error);
-    return [];
-  }
-}
-
-// Récupération de la galerie médias
-async function getMedia() {
-  try {
-    const response = await fetch("../data/photographers.json");
-    const data = await response.json();
-    return data.media;
-  } catch (error) {
-    console.error("[getMedia] Erreur :", error);
-    return [];
-  }
-}
-
-// ===============================
 // Affichage dans le DOM
 // ===============================
 
@@ -55,7 +33,7 @@ async function getMedia() {
 function displayPhotographerData(photographer) {
   const header = document.querySelector(".photograph-header");
 
-  // Créer conteneur texte
+  // Crée un conteneur texte
   const infoContainer = document.createElement("div");
   infoContainer.classList.add("photograph-info");
 
@@ -74,7 +52,7 @@ function displayPhotographerData(photographer) {
   infoContainer.appendChild(location);
   infoContainer.appendChild(tagline);
 
-  // Créer image
+  // Crée une image
   const picture = document.createElement("img");
   picture.setAttribute(
     "src",
@@ -83,65 +61,12 @@ function displayPhotographerData(photographer) {
   picture.setAttribute("alt", `Portrait de ${photographer.name}`);
   picture.classList.add("photographer-picture");
 
-  // Trouver le bouton
+  // Sélectionne le bouton
   const button = header.querySelector(".contact_button");
 
   // Injecter les éléments AVANT le bouton
   header.insertBefore(infoContainer, button);
   header.appendChild(picture); // l'image va après le bouton
-}
-
-// Affichage dynamique des médias du photographe dans la galerie HTML
-function displayPhotographerMedia(mediaArray) {
-  const gallerySection = document.querySelector(".media-gallery");
-
-  mediaArray.forEach((media) => {
-    const mediaModel = mediaFactory(media);
-    const mediaCard = mediaModel.getMediaDOM();
-    gallerySection.appendChild(mediaCard);
-  });
-}
-
-// ===============================
-// Initialisation de la galerie
-// ===============================
-
-// Fonction qui ajoute les événements de lightbox sur chaque média
-function initGallery(mediaArray) {
-  const mediaElements = document.querySelectorAll(".media-card");
-
-  mediaElements.forEach((element, index) => {
-    element.addEventListener("click", () => {
-      openLightbox(mediaArray[index], index, mediaArray);
-    });
-
-    element.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openLightbox(mediaArray[index], index, mediaArray);
-      }
-    });
-  });
-
-  // Initialise les contrôles clavier et boutons
-  initLightboxEvents();
-}
-
-// Crée dynamiquement un encart de prix et de like en bas à droite de l'écran
-function displayPhotographerPrice(price, totalLikes) {
-  const priceTag = document.createElement("div");
-  priceTag.classList.add("price-tag");
-  priceTag.setAttribute(
-    "aria-label",
-    "Tarif journalier et likes du photographe"
-  );
-
-  priceTag.innerHTML = ` <span class="total-likes">
-      <span id="totalLikes">${totalLikes}</span> ❤
-    </span>
-    <span>${price}€ / jour</span>
-  `;
-  document.body.appendChild(priceTag);
 }
 
 // ===============================
@@ -172,167 +97,11 @@ async function init() {
     initGallery(photographerMedia);
 
     initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
-    initLightboxEvents(); // Active les events globaux de la lightbox (flèches, esc, etc.)
-
-    // CUSTOM SELECT POUR LES FILTRES
-    const sortButton = document.getElementById("sortButton");
-    const sortOptions = document.getElementById("sortOptions");
-    const customSelect = document.querySelector(".custom-select");
-    const criteria = ["popularity", "date", "titre"];
-
-    sortButton.setAttribute("aria-haspopup", "listbox");
-    sortButton.setAttribute("aria-expanded", "false");
-    sortOptions.setAttribute("role", "listbox");
-
-    function getLabel(value) {
-      if (value === "popularity") return "Popularité";
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    }
-
-    sortButton.addEventListener("click", () => {
-      const expanded = sortButton.getAttribute("aria-expanded") === "true";
-      sortButton.setAttribute("aria-expanded", String(!expanded));
-      customSelect.classList.toggle("open");
-      if (!expanded) {
-        const firstOption = sortOptions.querySelector("li");
-        if (firstOption) firstOption.focus();
-      }
-    });
-
-    function buildOptions(selectedValue) {
-      const available = criteria.filter((c) => c !== selectedValue);
-      sortOptions.innerHTML = "";
-      available.forEach((crit) => {
-        const li = document.createElement("li");
-        li.dataset.value = crit;
-        li.textContent = getLabel(crit);
-        li.setAttribute("tabindex", "0");
-        li.setAttribute("role", "option");
-
-        li.addEventListener("click", () => {
-          sortButton.childNodes[0].nodeValue = getLabel(crit);
-          sortButton.dataset.value = crit;
-          buildOptions(crit);
-          customSelect.classList.remove("open");
-          sortButton.setAttribute("aria-expanded", "false");
-          sortMedia(photographerMedia, crit);
-          sortButton.focus();
-        });
-
-        li.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            li.click();
-          }
-          if (e.key === "ArrowDown") {
-            e.preventDefault();
-            const next = li.nextElementSibling || sortOptions.firstElementChild;
-            next.focus();
-          }
-          if (e.key === "ArrowUp") {
-            e.preventDefault();
-            const prev =
-              li.previousElementSibling || sortOptions.lastElementChild;
-            prev.focus();
-          }
-          if (e.key === "Escape") {
-            customSelect.classList.remove("open");
-            sortButton.setAttribute("aria-expanded", "false");
-            sortButton.focus();
-          }
-        });
-
-        sortOptions.appendChild(li);
-      });
-    }
-
-    // Ferme le menu si clic hors du composant
-    document.addEventListener("click", (e) => {
-      if (!customSelect.contains(e.target)) {
-        customSelect.classList.remove("open");
-        sortButton.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    // Initialisation
-    sortButton.childNodes[0].nodeValue = getLabel("popularity");
-    sortButton.dataset.value = "popularity";
-    buildOptions("popularity");
-
-    // Fonction de TRI
-    function sortMedia(mediaArray, criterion) {
-      switch (criterion) {
-        case "popularity":
-          mediaArray.sort((a, b) => b.likes - a.likes);
-          break;
-        case "date":
-          mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-          break;
-        case "titre":
-          mediaArray.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-      }
-
-      // Vider la galerie et ré-injecter les médias triés
-      const gallery = document.querySelector(".media-gallery");
-      gallery.innerHTML = "";
-      displayPhotographerMedia(mediaArray);
-      initGallery(mediaArray);
-    }
+    initLightboxEvents(); // Active les events de la lightbox (flèches, esc, etc.)
+    initCustomSelect(photographerMedia); // Active la gestion des filtres
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }
 }
 
 init();
-
-// ===============================
-// Gestion de la modale contact
-// ===============================
-
-document.addEventListener("DOMContentLoaded", () => {
-  const openModalBtn = document.querySelector(
-    ".photograph-header .contact_button"
-  );
-  const closeModalBtn = document.querySelector(".close_button");
-
-  if (openModalBtn) {
-    openModalBtn.addEventListener("click", displayModal);
-    openModalBtn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        displayModal();
-      }
-    });
-  }
-
-  if (closeModalBtn) {
-    closeModalBtn.addEventListener("click", closeModal);
-    closeModalBtn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        closeModal();
-      }
-    });
-  }
-});
-
-// Génère le nom du photographe
-function updateModalTitle(photographerName) {
-  const modalTitle = document.getElementById("contact_modal_title");
-  if (modalTitle) {
-    modalTitle.textContent = `Contactez-moi ${photographerName}`;
-  }
-}
-
-export function incrementTotalLikes() {
-  const totalLikesElement = document.getElementById("totalLikes");
-  let current = parseInt(totalLikesElement.textContent, 10);
-  totalLikesElement.textContent = current + 1;
-}
-
-export function decrementTotalLikes() {
-  const totalLikesElement = document.getElementById("totalLikes");
-  let current = parseInt(totalLikesElement.textContent, 10);
-  totalLikesElement.textContent = current - 1;
-}

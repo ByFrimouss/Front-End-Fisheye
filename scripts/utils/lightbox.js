@@ -26,7 +26,16 @@ export function openLightbox(media, index, mediaArray) {
     mediaElement.setAttribute("aria-label", `${media.title}, vidéo`);
   }
 
+  // Ajoute le titre
   mediaContainer.appendChild(mediaElement);
+
+  // Ajoute le titre
+  const titleElement = document.createElement("p");
+  titleElement.classList.add("lightbox-title");
+  titleElement.textContent = media.title;
+
+  mediaContainer.appendChild(titleElement);
+
   lightbox.style.display = "flex";
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";

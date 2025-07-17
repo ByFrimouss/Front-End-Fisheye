@@ -67,8 +67,6 @@ export function initModalEvents() {
       closeModal();
     }
   });
-
-  console.log("[initModalEvents] Événements modale initialisés");
 }
 
 const form = document.getElementById("contact-form");
@@ -92,3 +90,16 @@ if (form) {
     closeModal();
   });
 }
+console.log("[initModalEvents] Événements modale initialisés");
+
+// Génère le nom du photographe
+export function updateModalTitle(photographerName) {
+  const modalTitle = document.getElementById("contact_modal_title");
+  if (modalTitle) {
+    modalTitle.textContent = `Contactez-moi ${photographerName}`;
+  }
+}
+
+// ===============================
+// Gestion de la modale contact
+// ===============================
