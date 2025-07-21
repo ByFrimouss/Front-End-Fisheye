@@ -1,3 +1,4 @@
+// Importe les fonctions pour gérer le total de likes
 import { incrementTotalLikes, decrementTotalLikes } from "./like.js";
 
 export function mediaFactory(media) {
@@ -75,4 +76,25 @@ export function mediaFactory(media) {
   }
 
   return { getMediaDOM };
+}
+
+/* Fabrique un élément média pour la lightbox (image ou vidéo) */
+export function lightboxMediaFactory(media) {
+  const { image, video, title, photographerId } = media;
+  const mediaPath = `../assets/media/${photographerId}/${image || video}`;
+
+  let mediaElement;
+
+  if (image) {
+    mediaElement = document.createElement("img");
+    mediaElement.src = mediaPath;
+    mediaElement.alt = title;
+  } else if (video) {
+    mediaElement = document.createElement("video");
+    mediaElement.src = mediaPath;
+    mediaElement.controls = true;
+    mediaElement.setAttribute("aria-label", `${title}, vidéo`);
+  }
+
+  return mediaElement;
 }

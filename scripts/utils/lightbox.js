@@ -1,3 +1,5 @@
+import { lightboxMediaFactory } from "../utils/mediaFactory.js";
+
 let currentIndex = 0;
 let currentMediaArray = [];
 
@@ -10,21 +12,7 @@ export function openLightbox(media, index, mediaArray) {
 
   mediaContainer.innerHTML = ""; // Nettoie
 
-  const mediaPath = `../assets/media/${media.photographerId}/${
-    media.image || media.video
-  }`;
-  let mediaElement;
-
-  if (media.image) {
-    mediaElement = document.createElement("img");
-    mediaElement.src = mediaPath;
-    mediaElement.alt = media.title;
-  } else if (media.video) {
-    mediaElement = document.createElement("video");
-    mediaElement.src = mediaPath;
-    mediaElement.controls = true;
-    mediaElement.setAttribute("aria-label", `${media.title}, vidéo`);
-  }
+  const mediaElement = lightboxMediaFactory(media);
 
   // Ajoute le titre
   mediaContainer.appendChild(mediaElement);
