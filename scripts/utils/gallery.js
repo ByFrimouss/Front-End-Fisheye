@@ -1,23 +1,29 @@
 import { mediaFactory } from "./mediaFactory.js";
 import { openLightbox, initLightboxEvents } from "./lightbox.js";
+import { log } from "../utils/logger.js";
 
 // ===============================
-// Afichage de la galerie d'image et l'encart de prix et like
+// AFICHAGE DE LA GALERIE D'IMAGE ET L'ENCART DE PRIX ET LIKE
 // ===============================
 
-// Affichage dynamique des médias du photographe dans la galerie HTML
-export function displayPhotographerMedia(mediaArray) {
+// ==== AFFICHAGE DYNAMIQUE DES MÉDIAS DU PHOTOGRAPHE DANS LA GALERIE ====
+export function displayPhotographerMedia(mediaArray, photographerName) {
   const gallerySection = document.querySelector(".media-gallery");
+  const name =
+    photographerName ||
+    mediaArray[0]?.photographerName ||
+    "(photographe non précisé)";
 
   mediaArray.forEach((media) => {
     const mediaModel = mediaFactory(media);
     const mediaCard = mediaModel.getMediaDOM();
     gallerySection.appendChild(mediaCard);
   });
+
+  log(`[Gallery] ${mediaArray.length} médias affichés pour : (${name})`);
 }
 
-// Initialisation de la galerie
-// Fonction qui ajoute les événements de lightbox sur chaque média
+// ==== INITIALISATION DE LA GALERIE ====
 export function initGallery(mediaArray) {
   const mediaElements = document.querySelectorAll(".media-card");
 
@@ -38,7 +44,7 @@ export function initGallery(mediaArray) {
   initLightboxEvents();
 }
 
-// Crée dynamiquement un encart de prix et de like en bas à droite de l'écran
+// ==== CRÉE DYNAMIQUEMENT UN ENCART DE PRIX ET DE LIKE EN BAS À DROITE DE L'ÉCRAN ====
 export function displayPhotographerPrice(price, totalLikes) {
   const priceTag = document.createElement("div");
   priceTag.classList.add("price-tag");

@@ -1,5 +1,6 @@
 // Importe les fonctions pour gérer le total de likes
 import { incrementTotalLikes, decrementTotalLikes } from "./like.js";
+import { log } from "../utils/logger.js";
 
 export function mediaFactory(media) {
   const { image, video, title } = media;
@@ -56,8 +57,8 @@ export function mediaFactory(media) {
     let liked = false;
 
     likeBtn.addEventListener("click", (event) => {
-      event.stopPropagation(); // Bloque la bulle
-      event.preventDefault(); // Bloque le href="#"
+      event.stopPropagation();
+      event.preventDefault();
 
       if (!liked) {
         media.likes += 1;
@@ -70,6 +71,7 @@ export function mediaFactory(media) {
         decrementTotalLikes();
         liked = false;
       }
+      log(`[Like] "${media.title}" → ${media.likes} likes au total`);
     });
 
     return mediaArticle;

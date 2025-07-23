@@ -1,7 +1,5 @@
-// Mettre le code JavaScript lié à la page photographer.html
-
 // ===============================
-// Importation des fonctions
+// SCRIPT PRINCIPAL POUR LA PAGE PHOTOGRAPHER.HTML
 // ===============================
 import { getPhotographers, getMedia } from "../utils/api.js";
 import {
@@ -13,23 +11,13 @@ import { initCustomSelect } from "../utils/sort.js";
 import { initModalEvents, updateModalTitle } from "../utils/contactForm.js";
 import { initLightboxEvents } from "../utils/lightbox.js";
 
-console.log("[photographer.js] initModalEvents importée avec succès");
-
-// ===============================
-// Fonctions utilitaires
-// ===============================
-
-// Extrait l'ID du photographe depuis l'URL
+// ==== RÉCUPÈRE L'ID DU PHOTOGRAPHE DE PUIS L'URL ====
 function getPhotographerIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return parseInt(params.get("id"), 10);
 }
 
-// ===============================
-// Affichage dans le DOM
-// ===============================
-
-// Affiche les informations du photographe dans l'en-tête de la page
+// ==== AFFICHE LES INFOS DU PHOTOGRAPHE DANS L'EN-TÊTE ====
 function displayPhotographerData(photographer) {
   const header = document.querySelector(".photograph-header");
 
@@ -69,11 +57,7 @@ function displayPhotographerData(photographer) {
   header.appendChild(picture); // l'image va après le bouton
 }
 
-// ===============================
-// Initialisation globale
-// ===============================
-
-// Initialise la page du photographe avec ses données et ses médias
+// ==== INITIALISATION GLOBALE DE LA PAGE PHOTOGRAPHER.HTML ====
 async function init() {
   const id = getPhotographerIdFromUrl();
 
@@ -86,22 +70,19 @@ async function init() {
 
     const mediaArray = await getMedia();
     const photographerMedia = mediaArray.filter((m) => m.photographerId === id);
-    console.log(photographerMedia);
 
     // Affiche le tarif et les likes en bas à droite
     const totalLikes = photographerMedia.reduce((sum, m) => sum + m.likes, 0);
     displayPhotographerPrice(selected.price, totalLikes);
 
-    displayPhotographerMedia(photographerMedia); // Injecte les cartes médias dans la galerie
-
     initGallery(photographerMedia);
-
     initModalEvents(); // Active les événements d’ouverture/fermeture de la modale
     initLightboxEvents(); // Active les events de la lightbox (flèches, esc, etc.)
-    initCustomSelect(photographerMedia); // Active la gestion des filtres
+    initCustomSelect(photographerMedia, selected.name); // Active la gestion des filtres
   } else {
     console.error(`[init] Photographe avec ID ${id} non trouvé.`);
   }
 }
 
+// ==== LANCE L'INITIALISATION AU CHARGEMENT ====
 init();

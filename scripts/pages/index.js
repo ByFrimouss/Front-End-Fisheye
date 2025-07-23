@@ -1,20 +1,25 @@
 import { photographerTemplate } from "../templates/photographer.js";
+import { log } from "../utils/logger.js";
 
-/**
- * Récupère les données des photographes depuis un fichier JSON local
- * Utilise fetch + async/await pour gérer les appels asynchrones
- */
+// ===============================
+// SCRIPT DE LA PAGE D'ACCUEIL
+// ===============================
+
+// ==== RÉCUPÈRE LES PHOTOGRAPHES DEPUIS LE JSON LOCAL ====
 //////  ⇩⇩⇩⇩⇩  /////////
 async function getPhotographers() {
   try {
     const response = await fetch("./data/photographers.json"); // Appel du fichier JSON
     const data = await response.json(); // Conversion de la réponse HTTP en objet JavaScript
-    console.log("[getPhotographers] Données récupérées :", data.photographers);
+    log(
+      "[getPhotographers] Données de chaque photographe récupérées :",
+      data.photographers
+    );
 
     //console.log("[getPhotographers] Fonction appelée");
-    // Ceci est un exemple de données pour avoir un affichage de photographes de test dès le démarrage du projet,
-    // mais il sera à remplacer avec une requête sur le fichier JSON en utilisant "fetch".
-    /*  let photographers = [
+    /* Ceci est un exemple de données pour avoir un affichage de photographes de test dès le démarrage du projet,
+     mais il sera à remplacer avec une requête sur le fichier JSON en utilisant "fetch".
+      let photographers = [
     {
       name: "Ma data test",
       id: 1,
@@ -51,32 +56,30 @@ async function getPhotographers() {
   }
 }
 
-/**
- * Affiche dynamiquement les cartes de photographes sur la page
- */
+// ==== AFFICHE DYNAMIQUEMENT LES CARTES DE CHAQUE PHOTOGRAPHES ====
 async function displayPhotographers(photographers) {
   //console.log("[displayData] Données reçues :", photographers);
   const photographersSection = document.querySelector(".photographer_section");
 
   photographers.forEach((photographer) => {
-    //console.log("[displayData] Photographe en cours :", photographer.name);
+    // console.log("[displayData] Photographe en cours :", photographer.name);
 
-    // Création le profil du photographe et récupère l'élément DOM à insérer
+    // Crée le profil du photographe et récupère l'élément DOM à insérer
     const card = photographerTemplate(photographer).getUserCardDOM();
     // Ajoute la carte dans la section dédiée
     photographersSection.appendChild(card);
   });
 }
 
-/*** Initialise l'affichage en important les données JSON ***/
+// ==== INITIALISATION GÉNÉRALE DE LA PAGE D'ACCUEIL ====
 async function init() {
   //console.log("[init] Initialisation");
   // Récupère les données des photographes
   const { photographers } = await getPhotographers();
-  //console.log("[init] Données retournées par getPhotographers :", photographers);
 
   //Affiche les cartes des photographes dans le DOM
   displayPhotographers(photographers);
 }
 
+// ==== LANCE L'INITIALISATION AU CHARGEMENT ====
 init();

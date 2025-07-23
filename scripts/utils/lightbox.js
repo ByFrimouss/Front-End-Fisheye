@@ -1,4 +1,5 @@
 import { lightboxMediaFactory } from "../utils/mediaFactory.js";
+import { log } from "../utils/logger.js";
 
 let currentIndex = 0;
 let currentMediaArray = [];
@@ -17,7 +18,6 @@ export function openLightbox(media, index, mediaArray) {
   // Ajoute le titre
   mediaContainer.appendChild(mediaElement);
 
-  // Ajoute le titre
   const titleElement = document.createElement("p");
   titleElement.classList.add("lightbox-title");
   titleElement.textContent = media.title;
@@ -27,6 +27,11 @@ export function openLightbox(media, index, mediaArray) {
   lightbox.style.display = "flex";
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+  log(
+    `[Lightbox] Média affiché : "${media.title}" (Média ${index + 1}/${
+      currentMediaArray.length
+    })`
+  );
 
   // Focus sur le bouton fermer
   const closeBtn = lightbox.querySelector(".lightbox-close");

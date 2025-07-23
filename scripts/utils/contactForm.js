@@ -1,3 +1,5 @@
+import { log } from "../utils/logger.js";
+
 /* Affiche la modale de contact */
 export function displayModal() {
   const modal = document.getElementById("contact_modal");
@@ -7,9 +9,10 @@ export function displayModal() {
   }
   modal.style.display = "block";
   modal.setAttribute("aria-hidden", "false");
-  console.log("[displayModal] Modale affichée");
+  log("[contactForm] Modale ouverte");
   modal.focus(); // Focus direct sur la modale
   document.body.classList.add("modal-open");
+  log("[contactForm] Événements modale initialisés");
 }
 
 /* Ferme la modale de contact */
@@ -23,7 +26,7 @@ export function closeModal() {
   document.activeElement.blur(); // Retire le focus de la modale avant de la masquer
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
-  console.log("[closeModal] Modale fermée");
+  log("[contactForm] Modale fermée");
   document.body.classList.remove("modal-open");
 }
 
@@ -81,16 +84,16 @@ if (form) {
       message: form.message.value.trim(),
     };
 
-    console.log("[Formulaire soumis]");
-    // console.log("Prénom :", data.firstName);
-    console.log("Nom :", data.lastName);
-    console.log("Email :", data.email);
-    console.log("Message :", data.message);
+    log("[contactForm] Formulaire soumis", {
+      prenom: data.firstName,
+      nom: data.lastName,
+      email: data.email,
+      message: data.message,
+    });
 
     closeModal();
   });
 }
-console.log("[initModalEvents] Événements modale initialisés");
 
 // Génère le nom du photographe
 export function updateModalTitle(photographerName) {
@@ -99,7 +102,3 @@ export function updateModalTitle(photographerName) {
     modalTitle.textContent = `Contactez-moi ${photographerName}`;
   }
 }
-
-// ===============================
-// Gestion de la modale contact
-// ===============================
