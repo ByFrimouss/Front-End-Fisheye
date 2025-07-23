@@ -1,19 +1,26 @@
-// Importe les fonctions pour gérer le total de likes
 import { incrementTotalLikes, decrementTotalLikes } from "./like.js";
 import { log } from "../utils/logger.js";
 
+// ==============================
+// FABRIQUE LES ÉLÉMENTS MÉDIA POUR LA GALERIE ET LA LIGHTBOX
+// ==============================
+
+// ==== CRÉE UNE CARTE MÉDIA COMPLÈTE POUR AFFICHAGE DANS LA GALERIE ====
 export function mediaFactory(media) {
   const { image, video, title } = media;
   const mediaPath = `../assets/media/${media.photographerId}/${image || video}`;
 
   function getMediaDOM() {
+    // Conteneur principal du média (article)
     const mediaArticle = document.createElement("article");
     mediaArticle.classList.add("media-card");
 
+    // Lien autour du média (pour lightbox)
     const mediaLink = document.createElement("a");
     mediaLink.setAttribute("href", "#");
     mediaLink.setAttribute("aria-label", `${title}`);
 
+    // Image ou vidéo
     let mediaElement;
     if (image) {
       mediaElement = document.createElement("img");
@@ -28,6 +35,7 @@ export function mediaFactory(media) {
     mediaLink.appendChild(mediaElement);
     mediaArticle.appendChild(mediaLink);
 
+    // Section info sous le média : titre + likes
     const info = document.createElement("div");
     info.classList.add("media-info");
 
@@ -80,7 +88,7 @@ export function mediaFactory(media) {
   return { getMediaDOM };
 }
 
-/* Fabrique un élément média pour la lightbox (image ou vidéo) */
+// ==== FABRIQUE UN ÉLÉMENT MÉDIA POUR LA LIGHTBOX (IMAGE OU VIDÉO) ====
 export function lightboxMediaFactory(media) {
   const { image, video, title, photographerId } = media;
   const mediaPath = `../assets/media/${photographerId}/${image || video}`;

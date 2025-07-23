@@ -2,8 +2,6 @@
 // Récupération des données depuis le fichier JSON
 // ===============================
 
-import { log } from "../utils/logger.js";
-
 // Récupération de la liste des photographes
 export async function getPhotographers() {
   try {
