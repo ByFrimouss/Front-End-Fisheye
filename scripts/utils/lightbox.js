@@ -33,6 +33,10 @@ export function openLightbox(media, index, mediaArray) {
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 
+  // Rend l'arrière-plan inaccessible
+  document.querySelector("header").setAttribute("aria-hidden", "true");
+  document.querySelector("main").setAttribute("aria-hidden", "true");
+
   log(
     `[Lightbox] Média affiché : "${media.title}" (Média ${index + 1}/${
       currentMediaArray.length
@@ -52,6 +56,10 @@ export function closeLightbox() {
   lightbox.style.display = "none";
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "auto";
+
+  // Rend l'arrière-plan à nouveau accessible
+  document.querySelector("header").setAttribute("aria-hidden", "false");
+  document.querySelector("main").setAttribute("aria-hidden", "false");
 
   // Focus sur le bouton contact pour garder la navigation clavier
   const fallbackFocus = document.querySelector(".contact_button");

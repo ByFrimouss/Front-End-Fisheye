@@ -1,11 +1,12 @@
-// ===============================
-// SCRIPT PRINCIPAL POUR LA PAGE PHOTOGRAPHER.HTML
-// ===============================
 import { getPhotographers, getMedia } from "../utils/api.js";
 import { displayPhotographerPrice, initGallery } from "../utils/gallery.js";
 import { initCustomSelect } from "../utils/sort.js";
 import { initModalEvents, updateModalTitle } from "../utils/contactForm.js";
 import { initLightboxEvents } from "../utils/lightbox.js";
+
+// ===============================
+// SCRIPT PRINCIPAL POUR LA PAGE PHOTOGRAPHER.HTML
+// ===============================
 
 // ==== RÉCUPÈRE L'ID DU PHOTOGRAPHE DE PUIS L'URL ====
 function getPhotographerIdFromUrl() {
