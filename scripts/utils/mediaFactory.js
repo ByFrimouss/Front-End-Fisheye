@@ -56,7 +56,6 @@ export function mediaFactory(media) {
 
     likesContainer.appendChild(likesCount);
     likesContainer.appendChild(likeBtn);
-
     info.appendChild(mediaTitle);
     info.appendChild(likesContainer);
     mediaArticle.appendChild(info);

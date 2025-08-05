@@ -7,6 +7,7 @@ export async function getPhotographers() {
   try {
     const response = await fetch("../data/photographers.json");
     const data = await response.json();
+
     return data.photographers;
   } catch (error) {
     console.error("[getPhotographers] Erreur :", error);

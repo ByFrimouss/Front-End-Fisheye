@@ -55,6 +55,39 @@ export function photographerTemplate(data) {
     return article;
   }
 
-  // Retourne les infos + la fonction de génération
-  return { name, picture, getUserCardDOM };
+  // ==== CRÉE DYNAMIQUEMENT LE HEADER DU PHOTOGRAPHE ====
+  function getUserHeaderDOM() {
+    // Crée un conteneur <div> pour les infos du photographe
+    const container = document.createElement("div");
+    container.classList.add("photograph-info");
+
+    // Nom
+    const nameEl = document.createElement("h2");
+    nameEl.textContent = name;
+
+    // Lieu
+    const locationEl = document.createElement("p");
+    locationEl.classList.add("photographer-location");
+    locationEl.textContent = `${city}, ${country}`;
+
+    // Description
+    const taglineEl = document.createElement("p");
+    taglineEl.classList.add("photographer-tagline");
+    taglineEl.textContent = tagline;
+
+    container.appendChild(nameEl);
+    container.appendChild(locationEl);
+    container.appendChild(taglineEl);
+
+    // Image de profil
+    const img = document.createElement("img");
+    img.setAttribute("src", picture);
+    img.setAttribute("alt", `Portrait de ${name}`);
+    img.classList.add("photographer-picture");
+
+    return { container, img };
+  }
+
+  // Retourne les infos + les conteneurs associés (page d'accueil + page détaillé)
+  return { name, picture, getUserCardDOM, getUserHeaderDOM };
 }

@@ -17,12 +17,12 @@ sortButton.setAttribute("aria-expanded", "false");
 sortOptions.setAttribute("role", "listbox");
 
 // ==== FORMATE LE LABEL POUR LES OPTIONS ====
-export function getLabel(value) {
+function getLabel(value) {
   if (value === "popularity") return "Popularité";
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-// ==== ÉVÉNEMENTS PRINCIPAUX ====
+// ==== OUVERTURE ET FERMETURE DU MENU ====
 sortButton.addEventListener("click", () => {
   const expanded = sortButton.getAttribute("aria-expanded") === "true";
   sortButton.setAttribute("aria-expanded", String(!expanded));
@@ -30,6 +30,7 @@ sortButton.addEventListener("click", () => {
 
   log(`[Tri] Menu ${!expanded ? "ouvert" : "fermé"}`);
 
+  // Focus clavier sur la première option
   if (!expanded) {
     const firstOption = sortOptions.querySelector("li");
     if (firstOption) firstOption.focus();
@@ -37,7 +38,7 @@ sortButton.addEventListener("click", () => {
 });
 
 // ==== CONSTRUCTION DES OPTIONS ====
-export function buildOptions(selectedValue, mediaArray, photographerName) {
+function buildOptions(selectedValue, mediaArray, photographerName) {
   const available = criteria.filter((c) => c !== selectedValue);
   sortOptions.innerHTML = "";
 
@@ -50,6 +51,7 @@ export function buildOptions(selectedValue, mediaArray, photographerName) {
     li.setAttribute("tabindex", "0");
     li.setAttribute("role", "option");
 
+    // Gestion du clic
     li.addEventListener("click", () => {
       sortButton.childNodes[0].nodeValue = getLabel(crit);
       sortButton.dataset.value = crit;
@@ -101,7 +103,7 @@ export function buildOptions(selectedValue, mediaArray, photographerName) {
   }
 }
 
-// ==== FERMETURE SI CLIC HORS SELECT ====
+// ==== FERMETURE SI CLIC EN DEHORS ====
 document.addEventListener("click", (e) => {
   if (!customSelect.contains(e.target)) {
     customSelect.classList.remove("open");
@@ -120,7 +122,7 @@ export function initCustomSelect(mediaArray, photographerName) {
 }
 
 // ==== TRI DES MÉDIAS ====
-export function sortMedia(mediaArray, criterion, photographerName) {
+function sortMedia(mediaArray, criterion, photographerName) {
   switch (criterion) {
     case "popularity":
       mediaArray.sort((a, b) => b.likes - a.likes);
