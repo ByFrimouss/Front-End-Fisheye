@@ -65,7 +65,7 @@ export function mediaFactory(media) {
 
     likeBtn.addEventListener("click", (event) => {
       event.stopPropagation();
-      event.preventDefault();
+      //event.preventDefault();
 
       if (!liked) {
         media.likes += 1;

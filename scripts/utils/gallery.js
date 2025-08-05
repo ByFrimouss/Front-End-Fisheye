@@ -33,7 +33,7 @@ export function initGallery(mediaArray) {
     });
 
     element.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
+      if ((e.key === "Enter" || e.key === " ") && e.target === element) {
         e.preventDefault();
         openLightbox(mediaArray[index], index, mediaArray);
       }
